@@ -7,7 +7,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /app/app .
 FROM debian:12-slim
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
-    apt-get install -y dropbear-run && \
+    apt-get install -y dropbear-run tmux && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 RUN useradd -m -s /bin/bash buhonero
