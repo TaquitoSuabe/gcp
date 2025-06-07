@@ -10,10 +10,22 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     dropbear-run \
     tmux \
-    curl \
     net-tools \
+    git \
+    cmake \
+    build-essential \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+WORKDIR /tmp
+RUN git clone https://github.com/ambrop72/badvpn.git && \
+    cd badvpn && \
+    mkdir build && \
+    cd build && \
+    cmake .. -DBUILD_NOTHING_BY_DEFAULT=1 -DBUILD_UDPGW=1 && \
+    make install && \
+    cd / && \
+    rm -rf /tmp/badvpn
+WORKDIR /
 RUN useradd -m -s /bin/bash buhonero && \
     echo 'buhonero:gpc-test' | chpasswd
 RUN mkdir -p /etc/dropbear
