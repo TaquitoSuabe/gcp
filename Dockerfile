@@ -5,6 +5,7 @@ RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /app/app .
 FROM debian:12-slim
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y dropbear-run && \
     apt-get clean && \
@@ -15,6 +16,6 @@ USER root
 WORKDIR /
 COPY --from=builder /app/app /usr/local/bin/app
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/app /usr/local/bin/entrypoint.sh
 EXPOSE 8080
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
