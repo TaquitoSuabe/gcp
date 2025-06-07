@@ -23,7 +23,12 @@ func handleConnection(clientConn net.Conn, dhost string, dport int, packetsToSki
 	
 	// Enviar respuesta HTTP 101 (WebSocket handshake simulado)
 	response := fmt.Sprintf(
-		"HTTP/1.1 101 Switching Protocols\r\nContent-Length: 1048576000000\r\n\r\n",
+		"HTTP/1.1 101 Switching Protocols\r\n"+
+		"Connection: Upgrade\r\n"+
+		"Date: %s\r\n"+
+		"Sec-WebSocket-Accept: %s\r\n"+
+		"Upgrade: websocket\r\n"+
+		"Server: go-proxy/1.0\r\n\r\n",
 		time.Now().UTC().Format(time.RFC1123),
 		generateWebSocketAccept(),
 	)
