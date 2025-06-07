@@ -1,6 +1,6 @@
 FROM golang:1.22-alpine AS builder
 WORKDIR /app
-COPY COPY . .
+COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /app/app .
 FROM debian:12-slim
 RUN apt-get update && \
